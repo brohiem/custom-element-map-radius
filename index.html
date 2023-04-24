@@ -60,12 +60,6 @@
             languageId = context.variant.id;
             contentItemId = context.item.id;
             contentItemName = context.item.name;
-            // console.log('--------------------||---------------------------');
-            // console.log('VARIANT ID: ' + languageId);
-            // console.log('PROJECT ID: ' + environmentId);
-            // console.log('ITEM ID: ' + contentItemId);
-            // console.log('ITEM NAME: ' + contentItemName);
-            // console.log('--------------------||---------------------------');
         });
         
         $(document).ready(function () {
@@ -124,8 +118,6 @@
         }
 
         async function saveCoordinates() {
-
-            console.log("Saving values....");
 
             const KontentManagement = window['kontentManagement'];
             const client = new KontentManagement.ManagementClient({
