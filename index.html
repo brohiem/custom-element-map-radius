@@ -15,6 +15,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kontent-ai/management-sdk@latest/dist/bundles/kontent-management.umd.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&key=AIzaSyAeQJC488OBUZ-grbUZpHLKFI2M2k0LP_Q"></script>
     <style>
         * {
@@ -54,7 +55,8 @@
                     updateSize();
                 config = element.config || {};
                 var canvas = document.getElementById('map-canvas');
-                var myLatlng = new google.maps.LatLng(47.2389004, 8.7442319,15);
+                // var myLatlng = new google.maps.LatLng(47.2389004, 8.7442319,15);
+                var myLatlng = new google.maps.LatLng(32.91459, -117.00992, 15);
 
                 var mapOptions = {
                     zoom: 13,
