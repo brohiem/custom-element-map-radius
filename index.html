@@ -51,9 +51,8 @@
         let circleLatitude;
         let circleLongitude;
         let circleRadius;
-        var url = (window.location != window.parent.location)
-            ? document.referrer
-            : document.location.href;
+        alert(window.parent.location)
+        var url = (window.location != window.parent.location) ? document.referrer : document.location.href;
         let environmentId = getEnvironmentIdFromUrl(url);
 
         console.log('-----------------------------------------------');
