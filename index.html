@@ -83,11 +83,14 @@
                 function update() {
                     var debug = document.getElementById("debug");
                     var d = Math.pow(10, 5);
+                    
                     circleLatitude = Math.round(circle.getCenter().lat() * d) / d;
+                    circleLongitude = Math.round(circle.getCenter().lng() * d) / d;
+                    circleRadius = Math.round(circle.getRadius());
 
                     debug.innerHTML = "lat: " + circleLatitude + "<br>";
-                    debug.innerHTML += "lng: " + Math.round(circle.getCenter().lng() * d) / d + "<br>";
-                    debug.innerHTML += "radius: " + Math.round(circle.getRadius()) + " m<br>";
+                    debug.innerHTML += "lng: " + circleLongitude + "<br>";
+                    debug.innerHTML += "radius: " + circleRadius + " m<br>";
                 }
 
                 update();
@@ -102,7 +105,9 @@
         }
 
         function saveCoordinates() {
-            console.log(circleLatitude)
+            console.log('LAT: ' + circleLatitude);
+            console.log('LNG: ' + circleLongitude);
+            console.log('RAD: ' + circleRadius);
         }
 
     </script>
