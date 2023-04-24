@@ -48,32 +48,25 @@
 
     <script>
 
-        CustomElement.init((element, context) => { 
-
-            console.log('--------------------||---------------------------');
-            console.log(context.item.id);
-            console.log('--------------------||---------------------------');
-            // setConfig(element.config); 
-            // setProjectId(context.projectId); 
-            // setIsDisabled(element.disabled); 
-            // setItemName(context.item.name); 
-            // setElementValue(element.value ?? ''); 
-            // updateWatchedElementValue(element.config.textElementCodename); 
-        });
-        
         let circleLatitude;
         let circleLongitude;
         let circleRadius;
-       
-        var url = (window.location != window.parent.location) ? document.referrer : document.location.href;
-        let environmentId = getEnvironmentIdFromUrl(url);
-
-        console.log('-----------------------------------------------');
-        console.log(document.location.ancestorOrigins[0].href)
-        console.log(document.location.href)
-        console.log('URL: ' + url);
-        console.log('ENV:' + environmentId);
-        console.log('-----------------------------------------------');
+        let environmentId;
+        let languageId;
+        let contentItemId;
+        
+        CustomElement.init((element, context) => { 
+            contentItemId = context.item.id;
+            environmentId = context.projectId;
+            contentItemName = context.item.name;
+            languageId = variant.id;
+            console.log('--------------------||---------------------------');
+            console.log('VARIANT ID: ' + languageId);
+            console.log('PROJECT ID: ' + environmentId);
+            console.log('ITEM ID: ' + contentItemId);
+            console.log('ITEM NAME: ' + contentItemName);
+            console.log('--------------------||---------------------------');
+        });
 
         var KontentManagement = window['kontentManagement'];
         var client = new KontentManagement.ManagementClient({
@@ -138,15 +131,14 @@
 
         async function saveCoordinates() {
 
-            let contentItemId = getContentItemIdFromUrl(url);
-            let contentItemName = await client.viewContentItem()
-                .byItemId(contentItemId)
-                .toPromise()
-                .then(response => {
-                    return response.data.name;
-                }).catch((error) => {
-                    console.error(error);
-                });              
+            // let contentItemName = await client.viewContentItem()
+            //     .byItemId(contentItemId)
+            //     .toPromise()
+            //     .then(response => {
+            //         return response.data.name;
+            //     }).catch((error) => {
+            //         console.error(error);
+            //     });              
 
             let response = await client.upsertLanguageVariant()
                 .byItemId(contentItemId)
@@ -183,19 +175,6 @@
                 }); 
 
         }
-
-        function getEnvironmentIdFromUrl(url) {
-            let urlParts = url.split('/');
-            let environmentId = urlParts.at(3);
-            return environmentId;
-        }
-
-        function getContentItemIdFromUrl(url) {
-            let urlParts = url.split('/');
-            let contentItemId = urlParts.at(-1);
-            return contentItemId;
-        }
-        
 
     </script>
 </body>
