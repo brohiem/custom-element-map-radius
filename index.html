@@ -8,32 +8,26 @@
     <!-- Kentico Custom elements API-->
     <link rel="stylesheet" href="custom-element.css" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
     <script src="https://app.kontent.ai/js-api/custom-element/v1/custom-element.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
-    <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js"></script>
-        <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&key=AIzaSyAeQJC488OBUZ-grbUZpHLKFI2M2k0LP_Q"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&key=AIzaSyAeQJC488OBUZ-grbUZpHLKFI2M2k0LP_Q"></script>
     <style>
-* {
-	font-family: sans-serif;
-}
-#debug {
-	margin: 20px;
-}
-#map-canvas{
-	height: 400px;
-	width: 700px;
-	border: 1px solid black;
-}
-
-
+        * {
+            font-family: sans-serif;
+        }
+        #debug {
+            margin: 20px;
+        }
+        #map-canvas{
+            height: 400px;
+            width: 700px;
+            border: 1px solid black;
+        }
     </style>
 </head>
 
@@ -44,12 +38,17 @@
             <div class="ui sixteen column">
                 <div id="map-canvas"></div>
                 <div id="debug"></div>
-
+                <button class="button" onclick="saveCoordinates()">Save</button>
             </div>
         </div>
     </div>
 
     <script>
+
+        let circleLatitude;
+        let circleLongitude;
+        let circleRadius;
+
         $(document).ready(function () {
             CustomElement.init((element, _context) => {
                     updateSize();
@@ -84,7 +83,9 @@
                 function update() {
                     var debug = document.getElementById("debug");
                     var d = Math.pow(10, 5);
-                    debug.innerHTML = "lat: " + Math.round(circle.getCenter().lat() * d) / d + "<br>";
+                    circleLatitude = Math.round(circle.getCenter().lat() * d) / d;
+
+                    debug.innerHTML = "lat: " + circleLatitude + "<br>";
                     debug.innerHTML += "lng: " + Math.round(circle.getCenter().lng() * d) / d + "<br>";
                     debug.innerHTML += "radius: " + Math.round(circle.getRadius()) + " m<br>";
                 }
@@ -98,6 +99,10 @@
             // Updates the custom element height in Kontent.ai.
             const height = 550;
             CustomElement.setHeight(height);
+        }
+
+        function saveCoordinates() {
+            console.log(circleLatitude)
         }
 
     </script>
