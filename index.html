@@ -60,18 +60,12 @@
             languageId = context.variant.id;
             contentItemId = context.item.id;
             contentItemName = context.item.name;
-            console.log('--------------------||---------------------------');
-            console.log('VARIANT ID: ' + languageId);
-            console.log('PROJECT ID: ' + environmentId);
-            console.log('ITEM ID: ' + contentItemId);
-            console.log('ITEM NAME: ' + contentItemName);
-            console.log('--------------------||---------------------------');
-        });
-
-        var KontentManagement = window['kontentManagement'];
-        var client = new KontentManagement.ManagementClient({
-            environmentId: environmentId,
-            apiKey: 'ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAianRpIjogIjMxZTE5YzVlYWMyNjRiYWU5YzhkZGYzMTBhOTFjZWIzIiwNCiAgImlhdCI6ICIxNjgyMzUzNjI5IiwNCiAgImV4cCI6ICIxNjk4MTY0ODIwIiwNCiAgInZlciI6ICIzLjAuMCIsDQogICJ1aWQiOiAic3NvX2UzYWQ4MDYzLTBhMTgtNGIxYi05Mjk0LTNkODA3OTc1OGE2MiIsDQogICJwcm9qZWN0X2NvbnRhaW5lcl9pZCI6ICIzZWYyMzQxM2MyMjIwMDZmOTZkYTQ5MGQzODdkMzcxNCIsDQogICJhdWQiOiAibWFuYWdlLmtlbnRpY29jbG91ZC5jb20iDQp9.L4QowzvOn844dl2z-xklwQorEqm90rRZDb1qSzubsxA'
+            // console.log('--------------------||---------------------------');
+            // console.log('VARIANT ID: ' + languageId);
+            // console.log('PROJECT ID: ' + environmentId);
+            // console.log('ITEM ID: ' + contentItemId);
+            // console.log('ITEM NAME: ' + contentItemName);
+            // console.log('--------------------||---------------------------');
         });
         
         $(document).ready(function () {
@@ -131,18 +125,17 @@
 
         async function saveCoordinates() {
 
-            // let contentItemName = await client.viewContentItem()
-            //     .byItemId(contentItemId)
-            //     .toPromise()
-            //     .then(response => {
-            //         return response.data.name;
-            //     }).catch((error) => {
-            //         console.error(error);
-            //     });              
+            console.log("Saving values....");
 
-            let response = await client.upsertLanguageVariant()
+            const KontentManagement = window['kontentManagement'];
+            const client = new KontentManagement.ManagementClient({
+                environmentId: environmentId,
+                apiKey: 'ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAianRpIjogIjMxZTE5YzVlYWMyNjRiYWU5YzhkZGYzMTBhOTFjZWIzIiwNCiAgImlhdCI6ICIxNjgyMzUzNjI5IiwNCiAgImV4cCI6ICIxNjk4MTY0ODIwIiwNCiAgInZlciI6ICIzLjAuMCIsDQogICJ1aWQiOiAic3NvX2UzYWQ4MDYzLTBhMTgtNGIxYi05Mjk0LTNkODA3OTc1OGE2MiIsDQogICJwcm9qZWN0X2NvbnRhaW5lcl9pZCI6ICIzZWYyMzQxM2MyMjIwMDZmOTZkYTQ5MGQzODdkMzcxNCIsDQogICJhdWQiOiAibWFuYWdlLmtlbnRpY29jbG91ZC5jb20iDQp9.L4QowzvOn844dl2z-xklwQorEqm90rRZDb1qSzubsxA'
+            });            
+
+            const response = await client.upsertLanguageVariant()
                 .byItemId(contentItemId)
-                .byLanguageId('00000000-0000-0000-0000-000000000000')
+                .byLanguageId(languageId)
                 .withData((builder) => {
                     return {
                         elements: [
