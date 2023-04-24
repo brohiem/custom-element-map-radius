@@ -49,9 +49,7 @@
     <script>
 
         CustomElement.init((element, context) => { 
-            if (!isConfig(element.config)) { 
-                throw new Error('Invalid configuration of the custom element. Please check the documentation.'); 
-            } 
+
             console.log('-----------------------------------------------');
             console.log(context.item.id);
             console.log('-----------------------------------------------');
