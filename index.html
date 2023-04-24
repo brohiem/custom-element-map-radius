@@ -47,19 +47,19 @@
     </div>
 
     <script>
-
-        let circleLatitude;
-        let circleLongitude;
-        let circleRadius;
+        
         let environmentId;
         let languageId;
         let contentItemId;
+        let circleLatitude;
+        let circleLongitude;
+        let circleRadius;
         
         CustomElement.init((element, context) => { 
-            contentItemId = context.item.id;
             environmentId = context.projectId;
+            languageId = context.variant.id;
+            contentItemId = context.item.id;
             contentItemName = context.item.name;
-            languageId = variant.id;
             console.log('--------------------||---------------------------');
             console.log('VARIANT ID: ' + languageId);
             console.log('PROJECT ID: ' + environmentId);
