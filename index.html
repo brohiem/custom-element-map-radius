@@ -17,6 +17,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kontent-ai/management-sdk@latest/dist/bundles/kontent-management.umd.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&key=AIzaSyAeQJC488OBUZ-grbUZpHLKFI2M2k0LP_Q"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kontent-ai/management-sdk/dist/bundles/kontent-management.umd.min.js"></script>
+
     <style>
         * {
             font-family: sans-serif;
@@ -49,13 +51,24 @@
         let circleLatitude;
         let circleLongitude;
         let circleRadius;
+        let url = window.location.href;
+        let environmentId = getEnvironmentIdFromUrl(url);
 
+        console.log('-----------------------------------------------');
+        console.log(environmentId);
+        console.log('-----------------------------------------------');
+
+        var KontentManagement = window['kontentManagement'];
+        var client = new KontentManagement.ManagementClient({
+            environmentId: environmentId,
+            apiKey: 'ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAianRpIjogIjMxZTE5YzVlYWMyNjRiYWU5YzhkZGYzMTBhOTFjZWIzIiwNCiAgImlhdCI6ICIxNjgyMzUzNjI5IiwNCiAgImV4cCI6ICIxNjk4MTY0ODIwIiwNCiAgInZlciI6ICIzLjAuMCIsDQogICJ1aWQiOiAic3NvX2UzYWQ4MDYzLTBhMTgtNGIxYi05Mjk0LTNkODA3OTc1OGE2MiIsDQogICJwcm9qZWN0X2NvbnRhaW5lcl9pZCI6ICIzZWYyMzQxM2MyMjIwMDZmOTZkYTQ5MGQzODdkMzcxNCIsDQogICJhdWQiOiAibWFuYWdlLmtlbnRpY29jbG91ZC5jb20iDQp9.L4QowzvOn844dl2z-xklwQorEqm90rRZDb1qSzubsxA'
+        });
+        
         $(document).ready(function () {
             CustomElement.init((element, _context) => {
                     updateSize();
                 config = element.config || {};
                 var canvas = document.getElementById('map-canvas');
-                // var myLatlng = new google.maps.LatLng(47.2389004, 8.7442319,15);
                 var myLatlng = new google.maps.LatLng(32.91459, -117.00992, 15);
 
                 var mapOptions = {
@@ -106,11 +119,66 @@
             CustomElement.setHeight(height);
         }
 
-        function saveCoordinates() {
-            console.log('LAT: ' + circleLatitude);
-            console.log('LNG: ' + circleLongitude);
-            console.log('RAD: ' + circleRadius);
+        async function saveCoordinates() {
+
+            let contentItemId = getContentItemIdFromUrl(url);
+            let contentItemName = await client.viewContentItem()
+                .byItemId(contentItemId)
+                .toPromise()
+                .then(response => {
+                    return response.data.name;
+                }).catch((error) => {
+                    console.error(error);
+                });              
+
+            let response = await client.upsertLanguageVariant()
+                .byItemId(contentItemId)
+                .byLanguageId('00000000-0000-0000-0000-000000000000')
+                .withData((builder) => {
+                    return {
+                        elements: [
+                            builder.textElement({
+                                element: {
+                                    codename: 'latitude'
+                                },
+                                value: circleLatitude.toString()
+                            }),
+                            builder.textElement({
+                                element: {
+                                    codename: 'longitude'
+                                },
+                                value: circleLongitude.toString()
+                            }),
+                            builder.textElement({
+                                element: {
+                                    codename: 'radius'
+                                },
+                                value: circleRadius.toString()
+                            })                                                
+                        ]
+                    }
+                })
+                .toPromise().then(response => {
+                    console.log(response)
+                    return response.rawData.id; // object asset id
+                }).catch((error) => {
+                    console.error(error)
+                }); 
+
         }
+
+        function getEnvironmentIdFromUrl(url) {
+            let urlParts = url.split('/');
+            let environmentId = urlParts.at(3);
+            return environmentId;
+        }
+
+        function getContentItemIdFromUrl(url) {
+            let urlParts = url.split('/');
+            let contentItemId = urlParts.at(-1);
+            return contentItemId;
+        }
+        
 
     </script>
 </body>
