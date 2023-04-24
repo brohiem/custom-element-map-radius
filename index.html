@@ -56,7 +56,8 @@
         let environmentId = getEnvironmentIdFromUrl(url);
 
         console.log('-----------------------------------------------');
-        console.log(parent.document.URL)
+        console.log(document.referrer)
+        console.log(document.location.href)
         console.log('URL: ' + url);
         console.log('ENV:' + environmentId);
         console.log('-----------------------------------------------');
